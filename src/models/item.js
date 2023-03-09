@@ -13,6 +13,10 @@ const itemSchema = new Schema({
         type:String,
         required:true,
     },
+    file : {
+        type:String,
+        required:true,
+    },
     
     price : {
         type: Number,

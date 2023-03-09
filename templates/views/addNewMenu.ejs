@@ -15,7 +15,7 @@
     <nav class="navbar navbar-default">
       <div class="container">
         <div class="navbar-header">
-          <a class="navbar-brand" href="#">Restaurant Management System</a>
+          <a class="navbar-brand" href="/admin">Restaurant Management System</a>
         </div>
         <ul class="nav navbar-nav">
           <li class="active"><a href="/">Home</a></li>
@@ -53,10 +53,10 @@
                                 <div class="panel-title"> Add New Password</div>
                                  </div>  
                             <div class="panel-body" >
-                                <form action="/add-new-menu" id="passwordform" class="form-horizontal" method="post"  role="form">
-                                  <% if(success !=''){%> 
-                                    <p style="text-align: center;color:green;"><%= success %></p>
-                                    <%}%>
+                                <form action="/add-new-menu" id="passwordform" class="form-horizontal" method="post"  role="form" enctype="multipart/form-data">
+                                      <% if(success !=''){%>
+                                        <p style="text-align: center;color:green;"><%= success %></p>
+                                          <% } %>
                                   <div class="form-group">
                                             <label for="username" class="col-md-3 control-label">Product Category</label>
                                             <div class="col-md-9">
@@ -77,13 +77,22 @@
                                           </div>
                                       </div>
 
+                                      <div class="form-group">
+                                        <label for="username" class="col-md-3 control-label">Product Image</label>
+                                        <div class="col-md-9">
+                                            <input type="file" class="form-control" name="file" >
+                                        </div>
+                                    </div>
+
                                         <div class="form-group">
                                           <label for="username" class="col-md-3 control-label">Menu Name</label>
                                           <div class="col-md-9">
                                               <input type="textbox" class="form-control" name="name"  placeholder="Enter Your Project Name">
                                           </div>
                                       </div>
-                                  
+                                      
+
+
                                       <div class="form-group">
                                         <label for="username" class="col-md-3 control-label">Price</label>
                                         <div class="col-md-9">

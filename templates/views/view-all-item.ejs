@@ -15,7 +15,7 @@
     <nav class="navbar navbar-default">
       <div class="container">
         <div class="navbar-header">
-          <a class="navbar-brand" href="#">Restaurant Management System</a>
+          <a class="navbar-brand" href="/admin">Restaurant Management System</a>
         </div>
         <ul class="nav navbar-nav">
           <li class="active"><a href="/">Home</a></li>
@@ -54,6 +54,7 @@
                       <th>Product Category</th>
                       <th>Product Id</th>
                       <th>Product Name</th>
+                      <th>Product Image</th>
                       <th>Price</th>
                       <th>Product Detais</th>
                       <th>Action</th>
@@ -70,6 +71,11 @@
                       <td><%= row.pass_cat %></td>
                       <td><%= row.pid %></td>
                       <td><%= row.name %></td>
+                      <td>
+                        <div class="col-md-4">
+                          <img src="./upload/<%= row.file %>" alt="image" style="width: 50px; margin: 5px auto;">
+                      </div>
+                      </td>
                       <td><%= row.price %></td>
                       <td><%- row.details %></td>
                       <td>

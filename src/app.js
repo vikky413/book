@@ -68,7 +68,7 @@ function checkUsername(req,res,next){
    if(err) throw err;
    if(data){
     
-  return res.render('register', { title: 'Password Management System', msg:'Username Already Exit' });
+  return res.render('register', { title: 'Restaurant Management System', msg:'Username Already Exit' });
   
    }
    next();
@@ -85,7 +85,7 @@ function checkEmail(req,res,next){
    if(err) throw err;
    if(data){
     
-  return res.render('register', { title: 'Password Management System', msg:'Email Already Exit' });
+  return res.render('register', { title: 'Restaurant Management System', msg:'Email Already Exit' });
   
    }
    next();
@@ -103,7 +103,7 @@ app.get("/", (req, res) =>{
     if(loginUser){
       res.redirect('./dashboard');
     }else{
-    res.render('index', { title: 'Password Management System',loginUser: loginUser,records:data});
+    res.render('index', { title: 'Restaurant Management System',loginUser: loginUser,records:data});
     }
 })
   
@@ -113,7 +113,7 @@ app.get("/", (req, res) =>{
 
 app.get("/table", (req, res) =>{
   var loginUser=localStorage.getItem('loginUser');
-  res.render("table",{ title: 'Password Management System',loginUser:loginUser, msg:'' })
+  res.render("table",{ title: 'Restaurant Management System',loginUser:loginUser, msg:'' })
 });
 
 
@@ -124,7 +124,7 @@ app.get("/login",(req,res)=>{
   if(loginUser){
     res.redirect('./dashboard');
   }else{
-  res.render('login', { title: 'Password Management System', msg:'' });
+  res.render('login', { title: 'Restaurant Management System', msg:'' });
   }
 })
 
@@ -135,7 +135,7 @@ app.post("/login",(req,res)=>{
   const checkUser=User.findOne({username:username});
   checkUser.exec((err, data)=>{
     if(data==null){
-      res.render('index', { title: 'Password Management System', msg:"Invalid Username and Password." });
+      res.render('index', { title: 'Restaurant Management System', msg:"Invalid Username and Password." });
   
      }else{
   if(err) throw err;
@@ -143,7 +143,7 @@ app.post("/login",(req,res)=>{
   var getPassword = data.password;
   console.log(getPassword)
   if(password !== getPassword){
-   res.render('login', { title: 'Password Management System', msg:"Invalid Username or Password." });
+   res.render('login', { title: 'Restaurant Management System', msg:"Invalid Username or Password." });
   }
   else{
     var token = jwt.sign({ userID: getUserID }, 'loginToken');
@@ -164,15 +164,30 @@ app.post("/login",(req,res)=>{
 
 
 
-app.get("/admin",(req,res)=>{
+app.get("/admin", async (req,res)=>{
   var loginUser=localStorage.getItem('loginUser');
-  res.render("admin",{ title: 'Password Management System',loginUser:loginUser, msg:'' })
+  const getpass = catMenu.find({})
+  const getitems = itemModel.find({})
+  const tmodel = twoModel.find({})
+  const fmodel = fourModel.find({})
+  const smodel = sixModel.find({})
+  try {
+     let twodata = await tmodel.exec()
+     let fourdata = await fmodel.exec()
+     let sixdata = await smodel.exec()
+     let pass = await getpass.exec()
+     let item = await getitems.exec()
+     res.render('admin', { title: 'Restaurant Management System',loginUser: loginUser,records_two:twodata,records_four:fourdata,records_six:sixdata,passcat:pass,items:item });
+  }
+  catch(err){
+    throw Error();
+  }
 })
 
 
 app.get("/add-new-category",(req,res,next)=>{
   var loginUser=localStorage.getItem('loginUser');
-  res.render('addNewCategory', { title: 'Password Management System',loginUser: loginUser,errors:'',success:'' });
+  res.render('addNewCategory', { title: 'Restaurant Management System',loginUser: loginUser,errors:'',success:'' });
 })
 
 app.post("/add-new-category",upload, function(req, res,next) {
@@ -187,13 +202,13 @@ app.post("/add-new-category",upload, function(req, res,next) {
 
      passcatDetails.save(function(err,doc){
        if(err) throw err;
-       res.render('addNewCategory',  { title: 'Password Management System',loginUser: loginUser, errors:'', success:'Password category inserted successfully' });
+       res.render('addNewCategory',  { title: 'Restaurant Management System',loginUser: loginUser, errors:'', success:'Password category inserted successfully' });
      })
 })
 
 app.get("/add-two",(req,res,next)=>{
   var loginUser=localStorage.getItem('loginUser');
-  res.render('add-two', { title: 'Password Management System',loginUser: loginUser,errors:'',success:'' });
+  res.render('add-two', { title: 'Restaurant Management System',loginUser: loginUser,errors:'',success:'' });
 })
 
 app.post("/add-two", function(req, res,next) {
@@ -207,14 +222,14 @@ app.post("/add-two", function(req, res,next) {
 
      passcatDetails.save(function(err,doc){
        if(err) throw err;
-       res.render('add-two',  { title: 'Password Management System',loginUser: loginUser, errors:'', success:'Password category inserted successfully' });
+       res.render('add-two',  { title: 'Restaurant Management System',loginUser: loginUser, errors:'', success:'Password category inserted successfully' });
      })
 })
 
 
 app.get("/add-four",(req,res,next)=>{
   var loginUser=localStorage.getItem('loginUser');
-  res.render('add-four', { title: 'Password Management System',loginUser: loginUser,errors:'',success:'' });
+  res.render('add-four', { title: 'Restaurant Management System',loginUser: loginUser,errors:'',success:'' });
 })
 
 app.post("/add-four", function(req, res,next) {
@@ -228,13 +243,13 @@ app.post("/add-four", function(req, res,next) {
 
      passcatDetails.save(function(err,doc){
        if(err) throw err;
-       res.render('add-four',  { title: 'Password Management System',loginUser: loginUser, errors:'', success:'Password category inserted successfully' });
+       res.render('add-four',  { title: 'Restaurant Management System',loginUser: loginUser, errors:'', success:'Password category inserted successfully' });
      })
 })
 
 app.get("/add-six",(req,res,next)=>{
   var loginUser=localStorage.getItem('loginUser');
-  res.render('add-six', { title: 'Password Management System',loginUser: loginUser,errors:'',success:'' });
+  res.render('add-six', { title: 'Restaurant Management System',loginUser: loginUser,errors:'',success:'' });
 })
 
 app.post("/add-six", function(req, res,next) {
@@ -248,7 +263,7 @@ app.post("/add-six", function(req, res,next) {
 
      passcatDetails.save(function(err,doc){
        if(err) throw err;
-       res.render('add-six',  { title: 'Password Management System',loginUser: loginUser, errors:'', success:'Password category inserted successfully' });
+       res.render('add-six',  { title: 'Restaurant Management System',loginUser: loginUser, errors:'', success:'Password category inserted successfully' });
      })
 })
 
@@ -257,7 +272,7 @@ app.get("/view-two",(req,res)=>{
   const getPassCat = twoModel.find({})
   getPassCat.exec(function(err,data){
     if(err) throw err;
-  res.render('view-two', { title: 'Password Management System',loginUser: loginUser,records:data});
+  res.render('view-two', { title: 'Restaurant Management System',loginUser: loginUser,records:data});
 })
 })
 
@@ -266,7 +281,7 @@ app.get("/view-four",(req,res)=>{
   const getPassCat = fourModel.find({})
   getPassCat.exec(function(err,data){
     if(err) throw err;
-  res.render('view-four', { title: 'Password Management System',loginUser: loginUser,records:data});
+  res.render('view-four', { title: 'Restaurant Management System',loginUser: loginUser,records:data});
 })
 })
 
@@ -275,7 +290,7 @@ app.get("/view-six",(req,res)=>{
   const getPassCat = sixModel.find({})
   getPassCat.exec(function(err,data){
     if(err) throw err;
-  res.render('view-six', { title: 'Password Management System',loginUser: loginUser,records:data});
+  res.render('view-six', { title: 'Restaurant Management System',loginUser: loginUser,records:data});
 })
 })
 
@@ -288,7 +303,7 @@ app.get("/two", async (req,res)=>{
      let twodata = await tmodel.exec()
      let fourdata = await fmodel.exec()
      let sixdata = await smodel.exec()
-     res.render('two', { title: 'Password Management System',loginUser: loginUser,records_two:twodata,records_four:fourdata,records_six:sixdata });
+     res.render('two', { title: 'Restaurant Management System',loginUser: loginUser,records_two:twodata,records_four:fourdata,records_six:sixdata });
   }
   catch(err){
     throw Error();
@@ -303,7 +318,7 @@ app.get("/menuCategory",(req,res)=>{
   const getPassCat = catMenu.find({})
   getPassCat.exec(function(err,data){
     if(err) throw err;
-  res.render('menuCategory', { title: 'Password Management System',loginUser: loginUser,records:data});
+  res.render('menuCategory', { title: 'Restaurant Management System',loginUser: loginUser,records:data});
 })
 })
 
@@ -326,7 +341,7 @@ app.get('/menuCategory/edit/:id', checkLoginUser,function(req, res, next) {
   getpassCategory.exec(function(err,data){
     if(err) throw err;
  
-    res.render('editCat', { title: 'Password Management System',loginUser: loginUser,errors:'',success:'',records:data,id:passcat_id});
+    res.render('editCat', { title: 'Restaurant Management System',loginUser: loginUser,errors:'',success:'',records:data,id:passcat_id});
 
   });
 });
@@ -350,32 +365,34 @@ app.get("/add-new-menu",(req,res)=>{
   const getPassCat = catMenu.find({})
   getPassCat.exec(function(err,data){
     if(err) throw err;
-  res.render('addNewMenu', { title: 'Password Management System',loginUser: loginUser,records: data,success:''});
+  res.render('addNewMenu', { title: 'Restaurant Management System',loginUser: loginUser,records: data,success:''});
 })
 })
 
 
-app.post('/add-new-menu',function(req, res, next) {
+app.post('/add-new-menu',upload,function(req, res, next) {
   var loginUser=localStorage.getItem('loginUser');
    const pass_cat= req.body.pass_cat;
    const name= req.body.name;
    const price = req.body.price;
    const details= req.body.details;
    const pid = req.body.pid;
+   const image = req.file.filename;
   console.log(pass_cat,name,price,details)
   var password_details= new itemModel({
        pass_cat:pass_cat,
        pid:pid,
        name:name,
        price:price,
-       details:details
+       details:details,
+       file:image
 });
   console.log(pass_cat,name,price,details,pid)
 password_details.save(function(err,doc){
   const getPassCat = catMenu.find({})
   getPassCat.exec(function(err,data){
     if(err) throw err;
-  res.render('addNewMenu', { title: 'Password Management System',loginUser: loginUser,records: data,success:"Product Details Inserted Successfully"});
+  res.render('addNewMenu', { title: 'Restaurant Management System',loginUser: loginUser,records: data,success:"Product Details Inserted Successfully"});
 
 });
 
@@ -393,7 +410,7 @@ password_details.save(function(err,doc){
   if(err) throw err;
   const getPassCat = catMenu.find({})
   getPassCat.exec(function(err,data1){
-  res.render('editItem', { title: 'Password Management System',loginUser: loginUser,records:data1,record:data,success:'' });
+  res.render('editItem', { title: 'Restaurant Management System',loginUser: loginUser,records:data1,record:data,success:'' });
   });
   });
   });
@@ -412,7 +429,7 @@ password_details.save(function(err,doc){
   if(err) throw err;
   const getPassCat = catMenu.find({})
   getPassCat.exec(function(err,data1){
-  res.render('editItem', { title: 'Password Management System',loginUser: loginUser,records:data1,record:data,success:'Password Updated Successfully' });
+  res.render('editItem', { title: 'Restaurant Management System',loginUser: loginUser,records:data1,record:data,success:'Password Updated Successfully' });
   });
   });
   });
@@ -465,7 +482,7 @@ password_details.save(function(err,doc){
       const getPassCat = itemModel.find({})
       getPassCat.exec(function(err,data){
         if(err) throw err;
-      res.render('view-all-item', { title: 'Password Management System',loginUser: loginUser,records:data});
+      res.render('view-all-item', { title: 'Restaurant Management System',loginUser: loginUser,records:data});
   
     })
     
@@ -478,7 +495,7 @@ app.get("/dashboard",(req,res)=>{
   const getPassCat = catMenu.find({})
   getPassCat.exec(function(err,data){
     if(err) throw err;
-    res.render('dashboard', { title: 'Password Management System',loginUser: loginUser,records:data});
+    res.render('dashboard', { title: 'Restaurant Management System',loginUser: loginUser,records:data});
   }) 
 })
 
@@ -487,7 +504,7 @@ app.get("/register",(req,res)=>{
   if(loginUser){
     res.redirect('./dashboard');
   }else{
-  res.render('register', { title: 'Password Management System', msg:'' });
+  res.render('register', { title: 'Restaurant Management System', msg:'' });
   }
 })
 // This is the user post data 
@@ -502,7 +519,7 @@ app.post("/register", checkUsername,checkEmail, (req,res)=> {
      const email = req.body.email
      if(password !== confirmpassword){
 
-        res.render("register",{ title: 'Password Management System', msg:'Password not matched' })
+        res.render("register",{ title: 'Restaurant Management System', msg:'Password not matched' })
         // console.log(password,cpasswoed,phonenumber,username,email)
      }
      else {
@@ -517,7 +534,7 @@ app.post("/register", checkUsername,checkEmail, (req,res)=> {
           });
             userDetails.save((err,doc)=>{
             if(err) throw err;
-            res.render('login',{ title: 'Password Management System', msg:"" });
+            res.render('login',{ title: 'Restaurant Management System', msg:"" });
        })  ;
      }
 })
@@ -526,7 +543,7 @@ app.get('/shop',function(req,res,next) {
   const getPassCat = itemModel.find({})
   getPassCat.exec(function(err,data){
     if(err) throw err;
-    res.render('shop', { title: 'Password Management System',records:data});
+    res.render('shop', { title: 'Restaurant Management System',records:data});
   }) 
 })
 
@@ -534,7 +551,7 @@ app.get('/cart',function(req,res,next) {
   const getPassCat = itemModel.find({})
   getPassCat.exec(function(err,data){
     if(err) throw err;
-    res.render('cart', { title: 'Password Management System',records:data});
+    res.render('cart', { title: 'Restaurant Management System',records:data});
   }) 
 })
 
