@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Restaurant Management System</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script src="https://cdn.ckeditor.com/4.9.1/standard/ckeditor.js"></script>
+ 
+</head>
+  <body>
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Restaurant Management System</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="/">Home</a></li>
+          <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Menu Category </a>
+            <ul class="dropdown-menu">
+                <li><a href="/add-new-category" class="dropdown-item">Add New Category</a></li>
+              <li><a href="/menuCategory" class="dropdown-item">View All Category</a></li>
+            </ul></li>
+            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Menu Details </a>
+              <ul class="dropdown-menu">
+                  <li><a href="/add-new-menu" class="dropdown-item">Add New Menu</a></li>
+                <li><a href="/view-all-item" class="dropdown-item">View All Menu</a></li>
+              </ul></li>
+              <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Booking Details </a>
+                <ul class="dropdown-menu">
+                    <li><a href="/add-two" class="dropdown-item">Add Two Seater</a></li>
+                    <li><a href="/add-four" class="dropdown-item">Add Four Seater</a></li>
+                    <li><a href="/add-six" class="dropdown-item">Add Six Seater</a></li>
+                  <li><a href="/view-two" class="dropdown-item">View Two Seater</a></li>
+                  <li><a href="/view-four" class="dropdown-item">View four Seater</a></li>
+                  <li><a href="/view-six" class="dropdown-item">View Six Seater</a></li>
+                </ul></li>
+              <li><a href="/logout">Logout</a></li>
+        </ul>
+        <div class="navbar-header" style="float: right;"> <a class="navbar-brand" href="#">Loggedin As: <% if(loginUser){ %> <%= loginUser  %> <% } %></a></div>
+      </div>
+    </nav>
+              
+              <div class="container">
+                <div class="row">
+                    <h1>View Password Lists</h1>
+                    <br>
+                 <table class="table table-striped table-primary">
+                  <thead>
+                    <tr>
+                      <th>Product Category</th>
+                      <th>Product Id</th>
+                      <th>Product Name</th>
+                      <th>Price</th>
+                      <th>Product Detais</th>
+                      <th>Action</th>
+
+
+                    </tr>
+                  </thead>
+                  <tbody>
+                   <% if(records.length>0){
+                    records.forEach(function(row){
+                   
+                    %>
+                    <tr>
+                      <td><%= row.pass_cat %></td>
+                      <td><%= row.pid %></td>
+                      <td><%= row.name %></td>
+                      <td><%= row.price %></td>
+                      <td><%- row.details %></td>
+                      <td>
+                          
+                        <a class="btn btn-primary btn-xs" href="/password-detail/edit/<%= row._id %>"><i class="fa fa-edit"></i></a>
+                        <a class="btn btn-danger btn-xs" href="/password-detail/delete/<%= row._id %>" onclick="return confirm('Are you sure?')"><i class="fa fa-trash"></i></a>
+                      </td>
+                    </tr>
+                    <!-- Modal -->
+      
+                    <%    
+                  })} %>
+                  </tbody>
+                </table>
+               
+      
+              
+              </div>
+            </div>
+
+  </body>
+</html>
