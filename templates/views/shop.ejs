@@ -27,7 +27,7 @@
         <!--========== HEADER ==========-->
         <header class="l-header" id="header">
             <nav class="nav bd-container">
-                <a href="#" class="nav__logo">FineDine</a>
+                <a href="/" class="nav__logo"><% if(loginUser){ %> <%= loginUser  %> <% } %></a>
 
                 <div class="nav__menu" id="nav-menu">
                     <ul class="nav__list">
@@ -58,7 +58,7 @@
                         <h3 class="menu__name"><%= row.name %></h3>
                         <span class="menu__detail"><%- row.details %></span>
                         <span class="menu__preci">$<%= row.price %></span>
-                        <a href="/add-cart/edit/<%= row._id %>" class="button menu__button"><i class='bx bx-cart-alt' style="font-size:36px"></i></a>
+                        <a href="/add-cart/edit/<%= row._id %>" class="button menu__button">Add to Cart</a>
                     </div>
 
                 <%  }) } %>

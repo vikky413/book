@@ -1,6 +1,8 @@
 const express = require("express");
 const path = require("path");
 const app = express();
+require("dotenv").config();
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY); 
 // const hbs = require("hbs")
 const ejs = require("ejs")
 require("./db/connect")
@@ -93,19 +95,81 @@ function checkEmail(req,res,next){
   }
 
 
+  app.get('/Home', function(req, res){
+    res.render('Home', {
+       key: process.env.STRIPE_PUBLISHABLE_KEY
+    })
+})
+
+app.get('/forget', function(req, res){
+  res.render('forget', { title: 'Restaurant Management System', msg:'',pass:'' })
+})
+
+app.post('/forget',function(req,res) {
+  const uname = req.body.uname;
+  const uemail = req.body.uemail;
+  const checkUser=User.findOne({username:uname});
+  checkUser.exec((err, data)=>{
+    if(data==null){
+      res.render('forget', { title: 'Restaurant Management System', msg:"User Not Exist",pass:'' });
+     }
+     else{
+        var email = data.email
+        const password = data.password
+        if(uemail === email){
+          res.render('forget', { title: 'Restaurant Management System', msg:"",pass:password });
+        }
+        else {
+          res.render('forget', { title: 'Restaurant Management System', msg:"Details Not Matched" });
+        }
+     }
+})
+
+})
+
+app.post('/payment', function(req, res){
+ 
+    // Moreover you can take more details from user
+    // like Address, Name, etc from form
+    stripe.customers.create({
+        email: req.body.stripeEmail,
+        source: req.body.stripeToken,
+        name: 'Gourav Hammad',
+        address: {
+            line1: 'TC 9/4 Old MES colony',
+            postal_code: '452331',
+            city: 'Indore',
+            state: 'Madhya Pradesh',
+            country: 'India',
+        }
+    })
+    .then((customer) => {
+ 
+        return stripe.charges.create({
+            amount: 2500,     // Charging Rs 25
+            description: 'Web Development Product',
+            currency: 'INR',
+            customer: customer.id
+        });
+    })
+    .then((charge) => {
+        res.send("Success")  // If no error occurs
+    })
+    .catch((err) => {
+        res.send(err)       // If some error occurs
+    });
+})
+ 
+
 
 
 app.get("/", (req, res) =>{
   var loginUser=localStorage.getItem('loginUser');
-  const getPassCat = catMenu.find({})
-  getPassCat.exec(function(err,data){
-    if(err) throw err;
-    if(loginUser){
-      res.redirect('./dashboard');
-    }else{
-    res.render('index', { title: 'Restaurant Management System',loginUser: loginUser,records:data});
-    }
-})
+  if(loginUser){
+    res.redirect('./dashboard');
+  }else{
+  res.render('index', { title: 'Restaurant Management System',loginUser: loginUser});
+  }
   
 });
 
@@ -130,6 +194,7 @@ app.get("/login",(req,res)=>{
 
 
 app.post("/login",(req,res)=>{
+  
   var username=req.body.username;
   const password = req.body.password;
   const checkUser=User.findOne({username:username});
@@ -475,6 +540,88 @@ password_details.save(function(err,doc){
     });
   });
 
+  app.get('/twoa/edit/:id',function(req, res, next) {
+    var id =req.params.id;
+    const productid = 909;
+    var passdelete=twoModel.findByIdAndUpdate(id,{tid:productid});
+    passdelete.exec(function(err){
+      if(err) throw err;
+      res.redirect('/view-two');
+    });
+  });
+
+  app.get('/foura/edit/:id',function(req, res, next) {
+    var id =req.params.id;
+    const productid = 909;
+    var passdelete=fourModel.findByIdAndUpdate(id,{tid:productid});
+    passdelete.exec(function(err){
+      if(err) throw err;
+      res.redirect('/view-four');
+    });
+  });
+
+  app.get('/sixa/edit/:id',function(req, res, next) {
+    var id =req.params.id;
+    const productid = 909;
+    var passdelete=sixModel.findByIdAndUpdate(id,{tid:productid});
+    passdelete.exec(function(err){
+      if(err) throw err;
+      res.redirect('/view-six');
+    });
+  });
+
+  app.get('/twob/edit/:id',function(req, res, next) {
+    var id =req.params.id;
+    const productid = 999;
+    var passdelete=twoModel.findByIdAndUpdate(id,{tid:productid});
+    passdelete.exec(function(err){
+      if(err) throw err;
+      res.redirect('/view-two');
+    });
+  });
+
+  app.get('/fourb/edit/:id',function(req, res, next) {
+    var id =req.params.id;
+    const productid = 999;
+    var passdelete=fourModel.findByIdAndUpdate(id,{tid:productid});
+    passdelete.exec(function(err){
+      if(err) throw err;
+      res.redirect('/view-four');
+    });
+  });
+
+  app.get('/sixb/edit/:id',function(req, res, next) {
+    var id =req.params.id;
+    const productid = 999;
+    var passdelete=sixModel.findByIdAndUpdate(id,{tid:productid});
+    passdelete.exec(function(err){
+      if(err) throw err;
+      res.redirect('/view-six');
+    });
+  });
+
+
+
+  app.get('/tablef/edit/:id',function(req, res, next) {
+    var id =req.params.id;
+    const productid = 999;
+    var passdelete=sixModel.findByIdAndUpdate(id,{tid:productid});
+    passdelete.exec(function(err){
+      if(err) throw err;
+      res.redirect('/two');
+    });
+  });
+
+
+  app.get('/tablex/edit/:id',function(req, res, next) {
+    var id =req.params.id;
+    const productid = 999;
+    var passdelete=fourModel.findByIdAndUpdate(id,{tid:productid});
+    passdelete.exec(function(err){
+      if(err) throw err;
+      res.redirect('/two');
+    });
+  });
 
 
   app.get('/view-all-item', function(req, res, next) {
@@ -492,11 +639,16 @@ password_details.save(function(err,doc){
   
 app.get("/dashboard",(req,res)=>{
   var loginUser=localStorage.getItem('loginUser');
+  if(loginUser) {
   const getPassCat = catMenu.find({})
   getPassCat.exec(function(err,data){
     if(err) throw err;
     res.render('dashboard', { title: 'Restaurant Management System',loginUser: loginUser,records:data});
   }) 
+}
+else {
+  res.redirect('/')
+}
 })
 
 app.get("/register",(req,res)=>{
@@ -540,10 +692,11 @@ app.post("/register", checkUsername,checkEmail, (req,res)=> {
 })
 
 app.get('/shop',function(req,res,next) {
+  var loginUser=localStorage.getItem('loginUser');
   const getPassCat = itemModel.find({})
   getPassCat.exec(function(err,data){
     if(err) throw err;
-    res.render('shop', { title: 'Restaurant Management System',records:data});
+    res.render('shop', { title: 'Restaurant Management System',loginUser: loginUser,records:data});
   }) 
 })
 

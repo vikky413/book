@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<title>Stripe Payment</title>
+<style>
+    .center {
+        margin: auto;
+        width: 50%;
+        padding: 10px;
+        text-align: center;
+    }
+</style>
+<body>
+
+    
+    <div class="center">
+    <h3>Welcome to Food Payment</h3>
+    <form action="payment" method="POST">
+       <script
+          src="//checkout.stripe.com/v2/checkout.js"
+          class="stripe-button"
+          data-key="<%= key %>"
+          data-amount="12500"
+          data-currency="inr"
+          data-name="Bhavana"
+          data-description="Food Payment"
+          data-locale="auto" >
+        </script>
+    </form>
+    </div>
+</body>
+</html>

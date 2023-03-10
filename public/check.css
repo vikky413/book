@@ -14,11 +14,11 @@ font-family: "Poppins", sans-serif;
 --background-color2: #ffffff;
 --background-color3: #ededed;
 --background-color4: #cad7fda4;
---primary-color: #4b49ac;
---secondary-color: #0c007d;
---Border-color: #3f0097;
---one-use-color: #3f0097;
---two-use-color: #5500cb;
+--primary-color: #49ac50;
+--secondary-color: #49ac50;
+--Border-color: #49ac50;
+--one-use-color: #49ac50;
+--two-use-color: #49ac50;
 }
 body {
 background-color: var(--background-color4);
@@ -204,20 +204,20 @@ gap: 30px;
 }
 
 .option1 {
-border-left: 5px solid #010058af;
+border-left: 5px solid #49ac50;
 background-color: var(--Border-color);
 color: white;
 cursor: pointer;
 }
 .option1:hover {
-border-left: 5px solid #010058af;
+border-left: 5px solid #49ac50;
 background-color: var(--Border-color);
 }
 .box {
 height: 130px;
 width: 230px;
 border-radius: 20px;
-box-shadow: 3px 3px 10px rgba(0, 30, 87, 0.751);
+box-shadow: 3px 3px 10px #49ac50;
 padding: 20px;
 display: flex;
 align-items: center;
@@ -275,20 +275,20 @@ display: flex;
 align-items: center;
 justify-content: space-between;
 padding: 20px 20px 10px 20px;
-border-bottom: 2px solid rgba(0, 20, 151, 0.59);
+border-bottom: 2px solid #49ac50;
 }
 
 .recent-Articles {
 font-size: 30px;
 font-weight: 600;
-color: #5500cb;
+color: #49ac50;
 }
 
 .view {
 height: 35px;
 width: 90px;
 border-radius: 8px;
-background-color: #5500cb;
+background-color: #49ac50;
 color: white;
 font-size: 15px;
 border: none;

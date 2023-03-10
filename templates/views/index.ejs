@@ -27,18 +27,18 @@
         <!--========== HEADER ==========-->
         <header class="l-header" id="header">
             <nav class="nav bd-container">
-                <a href="#" class="nav__logo">FineDine</a>
+                <h4><a href="#" class="nav__logo"><b>Restaurant Management System</b></a></h4>
 
                 <div class="nav__menu" id="nav-menu">
                     <ul class="nav__list">
-                        <li class="nav__item"><a href="#home" class="nav__link active-link">Home</a></li>
-                        <li class="nav__item"><a href="#about" class="nav__link">About</a></li>
-                        <li class="nav__item"><a href="#services" class="nav__link">Services</a></li>
-                        <li class="nav__item"><a href="#menu" class="nav__link">Menu</a></li>
-                        <li class="nav__item"><a href="#reservation" class="nav__link">Reservation</a></li>
-                        <li class="nav__item"><a href="#contact" class="nav__link">Contact us</a></li>
-                        <li class="nav__item"><a href="/login" class="nav__link">Login</a></li>
-                        <li class="nav__item"><a href="/register" class="nav__link">Register</a></li>
+                        <li class="nav__item"><h4><a href="#home" class="nav__link active-link"><b>Home</b></a></h4></li>
+                        <li class="nav__item"><h4><a href="#about" class="nav__link"><b>About</b></a></h4></li>
+                        <li class="nav__item"><h4><a href="#services" class="nav__link"><b>Services</b></a></h4></li>
+                        <li class="nav__item"><h4><a href="#menu" class="nav__link"><b>Menu</b></a></h4></li>
+                        <li class="nav__item"><h4><a href="#reservation" class="nav__link"><b>Reservation</b></a></h4></li>
+                        <li class="nav__item"><h4><a href="#contact" class="nav__link"><b>Contact us</b></a></h4></li>
+                        <li class="nav__item"><h4><a href="/login" class="nav__link"><b>Login</b></a></h4></li>
+                        <li class="nav__item"><h4><a href="/register" class="nav__link"><b>Register</b></a></h4></li>
                         <!-- <li><i class='bx bx-moon change-theme' id="theme-button"></i></li> -->
                     </ul>
                 </div>
@@ -368,18 +368,38 @@
                 <h2 class="section-title">Menu</h2>
               
                 <div class="menu__container bd-grid">
-                    
-                    <% if(records.length >0){
-                        records.forEach(function(row){
-                        %>
 
                     <div class="menu__content">
-                        <img src="./upload/<%= row.file %>" alt="" class="menu__img">
-                        <a href="/shop">
-                        <h3 style="text-align: center;"><%= row.menuCategory %></h3></a>
+                        <img src="./food/burger1.png" alt="" class="menu__img">
+                        <a href="/login">
+                        <h3 style="text-align: center;">Burger</h3></a>
+                    </div>
+
+                    <div class="menu__content">
+                        <img src="./food/burger2.jpg" alt="" class="menu__img">
+                        <a href="/login">
+                        <h3 style="text-align: center;">Burger</h3></a>
+                    </div>
+
+                    <div class="menu__content">
+                        <img src="./food/burger3.jpeg" alt="" class="menu__img">
+                        <a href="/login">
+                        <h3 style="text-align: center;">Burger</h3></a>
                     </div>
                     
-                    <%  }) } %>
+                    <div class="menu__content">
+                        <img src="./food/pizza.jpeg" alt="" class="menu__img">
+                        <a href="/login">
+                        <h3 style="text-align: center;">Pizza</h3></a>
+                    </div>
+
+                    <div class="menu__content">
+                        <img src="./food/pizza1.jpeg" alt="" class="menu__img">
+                        <a href="/login">
+                        <h3 style="text-align: center;">Pizza</h3></a>
+                    </div>
+                    
+                  
                   
                 </div>
                 

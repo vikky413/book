@@ -17,7 +17,7 @@
 
             <!-- Registration Form -->
             <div class="form Signup">
-                <span class="title">Registration</span>
+                <span class="title" style="color: green;">Create New User</span>
                  
                 <% if(msg !=''){ %>
                     <p style="text-align: center" class="alert alert-danger">   <%= msg %></p>
@@ -57,14 +57,13 @@
                             <label for="logCheck" class="text">Remember me</label>
                         </div>
 
-                        <a href="#" class="text">Forgot password?</a>
                     </div>
 
                     <div class="input-field button">
-                        <input type="submit" id="btn2" value="Register">
+                        <input type="submit" id="btn2" value="Register" onclick="return confirm('Please Login Here!')">
                     </div>
                 </form>
-
+ 
                 <div class="login-signup">
                     <span class="text">Already a member?</span>
                     <a href="/login" class="text login-link">Login now</a>

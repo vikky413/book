@@ -12,35 +12,36 @@
  
 </head>
   <body>
+
     <nav class="navbar navbar-default">
       <div class="container">
         <div class="navbar-header">
-          <a class="navbar-brand" href="/admin">Restaurant Management System</a>
+          <a class="navbar-brand" href="/admin" style="color: green;"><b>Restaurant Management System</b></a>
         </div>
         <ul class="nav navbar-nav">
-          <li class="active"><a href="/">Home</a></li>
-          <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Menu Category </a>
+          <li class="active"><a href="/" style="color: green;"><b>Home</b></a></li>
+          <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: green;"><b>Menu Category</b> </a>
             <ul class="dropdown-menu">
-                <li><a href="/add-new-category" class="dropdown-item">Add New Category</a></li>
-              <li><a href="/menuCategory" class="dropdown-item">View All Category</a></li>
+                <li><a href="/add-new-category" class="dropdown-item" style="color: green;"><b>Add New Category</b></a></li>
+              <li><a href="/menuCategory" class="dropdown-item" style="color: green;"><b>View All Category</b></a></li>
             </ul></li>
-            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Menu Details </a>
+            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: green;"><b>Menu Details</b> </a>
               <ul class="dropdown-menu">
-                  <li><a href="/add-new-menu" class="dropdown-item">Add New Menu</a></li>
-                <li><a href="/view-all-item" class="dropdown-item">View All Menu</a></li>
+                  <li><a href="/add-new-menu" class="dropdown-item" style="color: green;"><b>Add New Menu</b></a></li>
+                <li><a href="/view-all-item" class="dropdown-item" style="color: green;"><b>View All Menu</b></a></li>
               </ul></li>
-              <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Booking Details </a>
+              <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: green;"><b>Booking Details</b> </a>
                 <ul class="dropdown-menu">
-                    <li><a href="/add-two" class="dropdown-item">Add Two Seater</a></li>
-                    <li><a href="/add-four" class="dropdown-item">Add Four Seater</a></li>
-                    <li><a href="/add-six" class="dropdown-item">Add Six Seater</a></li>
-                  <li><a href="/view-two" class="dropdown-item">View Two Seater</a></li>
-                  <li><a href="/view-four" class="dropdown-item">View four Seater</a></li>
-                  <li><a href="/view-six" class="dropdown-item">View Six Seater</a></li>
+                    <li><a href="/add-two" class="dropdown-item" style="color: green;"><b>Add Two Seater</b></a></li>
+                    <li><a href="/add-four" class="dropdown-item" style="color: green;"><b>Add Four Seater</b></a></li>
+                    <li><a href="/add-six" class="dropdown-item" style="color: green;"><b>Add Six Seater</b></a></li>
+                  <li><a href="/view-two" class="dropdown-item" style="color: green;"><b>View Two Seater</b></a></li>
+                  <li><a href="/view-four" class="dropdown-item" style="color: green;"><b>View four Seater</b></a></li>
+                  <li><a href="/view-six" class="dropdown-item" style="color: green;"><b>View Six Seater</b></a></li>
                 </ul></li>
-              <li><a href="/logout">Logout</a></li>
+              <li><a href="/logout" style="color: green;"><b>Logout</b></a></li>
         </ul>
-        <div class="navbar-header" style="float: right;"> <a class="navbar-brand" href="#">Loggedin As: <% if(loginUser){ %> <%= loginUser  %> <% } %></a></div>
+        <div class="navbar-header" style="float: right;"> <a class="navbar-brand" href="#" style="color: green;"><b><% if(loginUser){ %> <%= loginUser  %> <% } %></b></a></div>
       </div>
     </nav>
 

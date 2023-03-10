@@ -8,7 +8,9 @@ Side note: I know that this style of nesting in SASS doesn't result in the most 
 
 /* Global settings */
 
-
+.container {
+  margin: 20px;
+}
 
 /* Global "table" column settings */
 .product-image { float: left; width: 20%; }
@@ -120,6 +122,7 @@ label {
   .remove-product {
     border: 0;
     padding: 4px 8px;
+    
     background-color: #c66;
     color: #fff;
     font-family: 'HelveticaNeue-Medium', 'Helvetica Neue Medium';

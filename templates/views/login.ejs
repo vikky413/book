@@ -9,18 +9,19 @@
 
     <!-- ICONS -->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
     <title>LoginPage</title>
 </head>
 <body>
     <div class="container">
         <div class="lforms">
             <div class="form login">
-                <span class="title">Login</span>
-
+                <span class="title" style="color: green;align-items: center;"><b>User Login</b></span>
+                
                 <form action="/login" name="myForm"  method="post">
                     <% if(msg !=''){ %>
                         <div id="signupalert"  class="alert alert-danger">
-                           <p style="text-align: center"><%= msg %></p>
+                           <p style="text-align: center;color:red;"><%= msg %></p>
                         </div>
                             <% } %>
                     <div class="input-field">
@@ -40,11 +41,11 @@
                             <label for="logCheck" class="text">Remember me</label>
                         </div>
 
-                        <a href="#" class="text">Forgot password?</a>
+                        <a href="/forget" class="text">Forgot password?</a>
                     </div>
 
                     <div class="input-field button">
-                        <input type="submit" value="Login" id="btn">
+                        <input type="submit" value="Login" id="btn" onclick="return confirm('Welcome to the Restaurant Management System!')">
                     </div>
                 </form>
 
