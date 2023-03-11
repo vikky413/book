@@ -26,7 +26,8 @@ const itemSchema = new Schema({
     details : {
         type: String,
         required:true
-    }
+    },
+   
     
 });
 

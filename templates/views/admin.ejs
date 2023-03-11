@@ -187,31 +187,34 @@
 			</div>
 
 			
-
 			<div class="report-container">
 				<div class="report-header">
-					<h1 class="recent-Articles">Total Products</h1>
+					<h1 class="recent-Articles">Summary</h1>
 					<button class="view">View All</button>
 				</div>
 
 				<div class="report-body">
 					<div class="report-topic-heading">
-						<h3 class="t-op">Product Category</h3>
-						<h3 class="t-op">Product Name</h3>
-						<h3 class="t-op">Price</h3>
+						<h3 class="t-op">User</h3>
+						<h3 class="t-op">Product Purchesed</h3>
+						<h3 class="t-op">Product Price</h3>
 						
 					</div>
-                 
+                   
 					<% if(items.length >0){
 						items.forEach(function(row){
 						%>
-
-					<div class="items">
-						<div class="item1">
-							<h3 class="t-op-nextlvl"><%= row.pass_cat %></h3>
+                        <div class="items">
+                            <div class="item1">                    
+     
+                                
+					
+                            <% if(row.pid == "999") { %>
+                                                   
+                            <h3 class="t-op-nextlvl"><%= loginUser %></h3>
 							<h3 class="t-op-nextlvl"><%= row.name %></h3>
 							<h3 class="t-op-nextlvl"><%= row.price %></h3>
-							
+							<% } %>
 						</div>
 
 						<%  }) } %>

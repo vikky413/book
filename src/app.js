@@ -12,6 +12,7 @@ const itemModel = require("./models/item")
 const twoModel = require("./models/twoseat")
 const fourModel = require("./models/fourseat")
 const sixModel = require("./models/sixseat")
+
 const {json} = require("express");
 const { errorMonitor } = require("events");
 var jwt = require('jsonwebtoken');
@@ -19,6 +20,7 @@ const { abort } = require("process");
 const { check, validationResult } = require('express-validator');
 const multer = require("multer");
 const paginate = require('mongoose-paginate');
+const { ifError } = require("assert");
 
 
 const port = process.env.PORT || 30000;
@@ -96,9 +98,15 @@ function checkEmail(req,res,next){
 
 
   app.get('/Home', function(req, res){
+    var loginUser=localStorage.getItem('loginUser');
+    if(loginUser){
     res.render('Home', {
        key: process.env.STRIPE_PUBLISHABLE_KEY
     })
+  }
+  else {
+    res.redirect('/login')
+  }
 })
 
 app.get('/forget', function(req, res){
@@ -177,7 +185,13 @@ app.get("/", (req, res) =>{
 
 app.get("/table", (req, res) =>{
   var loginUser=localStorage.getItem('loginUser');
-  res.render("table",{ title: 'Restaurant Management System',loginUser:loginUser, msg:'' })
+  if(loginUser){
+    res.render("table",{ title: 'Restaurant Management System',loginUser:loginUser, msg:'' })
+  }
+  else {
+    res.redirect('/login')
+  }
+  
 });
 
 
@@ -187,7 +201,8 @@ app.get("/login",(req,res)=>{
   var loginUser=localStorage.getItem('loginUser');
   if(loginUser){
     res.redirect('./dashboard');
-  }else{
+  }
+  else{
   res.render('login', { title: 'Restaurant Management System', msg:'' });
   }
 })
@@ -217,6 +232,9 @@ app.post("/login",(req,res)=>{
     if(username == "real" && password === "1234"){
       res.redirect('/admin')
     }
+    else if(username == 'ankul' && password == "12345"){
+      res.redirect('/worker')
+    }
     else {
     res.redirect('/dashboard');
     }
@@ -228,6 +246,20 @@ app.post("/login",(req,res)=>{
 });
 
 
+
+app.get('/worker', (req,res) => {
+  var loginUser=localStorage.getItem('loginUser');
+  if(loginUser){
+    const getPassCat = itemModel.find({})
+    getPassCat.exec(function(err,data){
+      if(err) throw err;
+    res.render('worker', { title: 'Restaurant Management System',loginUser: loginUser,records:data});
+  })
+  }
+  else {
+    res.redirect('/login')
+ }
+})
 
 app.get("/admin", async (req,res)=>{
   var loginUser=localStorage.getItem('loginUser');
@@ -252,7 +284,12 @@ app.get("/admin", async (req,res)=>{
 
 app.get("/add-new-category",(req,res,next)=>{
   var loginUser=localStorage.getItem('loginUser');
+  if(loginUser){
   res.render('addNewCategory', { title: 'Restaurant Management System',loginUser: loginUser,errors:'',success:'' });
+  }
+  else {
+    res.redirect('/login')
+ }
 })
 
 app.post("/add-new-category",upload, function(req, res,next) {
@@ -260,6 +297,7 @@ app.post("/add-new-category",upload, function(req, res,next) {
      const menuCategory =req.body.menuCategory;
      const image = req.file.filename;
      console.log(menuCategory)
+     
      var passcatDetails =new catMenu({
          menuCategory: menuCategory,
          file:image
@@ -273,7 +311,12 @@ app.post("/add-new-category",upload, function(req, res,next) {
 
 app.get("/add-two",(req,res,next)=>{
   var loginUser=localStorage.getItem('loginUser');
+  if(loginUser){ 
   res.render('add-two', { title: 'Restaurant Management System',loginUser: loginUser,errors:'',success:'' });
+}
+else {
+  res.redirect('/login')
+}
 })
 
 app.post("/add-two", function(req, res,next) {
@@ -294,7 +337,12 @@ app.post("/add-two", function(req, res,next) {
 
 app.get("/add-four",(req,res,next)=>{
   var loginUser=localStorage.getItem('loginUser');
+  if(loginUser){
   res.render('add-four', { title: 'Restaurant Management System',loginUser: loginUser,errors:'',success:'' });
+}
+else {
+  res.redirect('/login')
+}
 })
 
 app.post("/add-four", function(req, res,next) {
@@ -314,7 +362,12 @@ app.post("/add-four", function(req, res,next) {
 
 app.get("/add-six",(req,res,next)=>{
   var loginUser=localStorage.getItem('loginUser');
+  if(loginUser){
   res.render('add-six', { title: 'Restaurant Management System',loginUser: loginUser,errors:'',success:'' });
+}
+else {
+  res.redirect('/login')
+}
 })
 
 app.post("/add-six", function(req, res,next) {
@@ -334,33 +387,50 @@ app.post("/add-six", function(req, res,next) {
 
 app.get("/view-two",(req,res)=>{
   var loginUser=localStorage.getItem('loginUser');
+  if(loginUser){
   const getPassCat = twoModel.find({})
   getPassCat.exec(function(err,data){
     if(err) throw err;
   res.render('view-two', { title: 'Restaurant Management System',loginUser: loginUser,records:data});
 })
+}
+else {
+  res.redirect('/login')
+}
 })
 
 app.get("/view-four",(req,res)=>{
   var loginUser=localStorage.getItem('loginUser');
+  if(loginUser){
   const getPassCat = fourModel.find({})
   getPassCat.exec(function(err,data){
     if(err) throw err;
   res.render('view-four', { title: 'Restaurant Management System',loginUser: loginUser,records:data});
 })
+  }
+  else {
+     res.redirect('/login')
+  }
 })
 
 app.get("/view-six",(req,res)=>{
   var loginUser=localStorage.getItem('loginUser');
-  const getPassCat = sixModel.find({})
-  getPassCat.exec(function(err,data){
-    if(err) throw err;
-  res.render('view-six', { title: 'Restaurant Management System',loginUser: loginUser,records:data});
-})
+  if(loginUser){
+    const getPassCat = sixModel.find({})
+    getPassCat.exec(function(err,data){
+      if(err) throw err;
+    res.render('view-six', { title: 'Restaurant Management System',loginUser: loginUser,records:data});
+  })
+  }
+   else {
+    res.redirect('./login')
+   }
+
 })
 
 app.get("/two", async (req,res)=>{
   var loginUser=localStorage.getItem('loginUser');
+  if(loginUser){
   const tmodel = twoModel.find({})
   const fmodel = fourModel.find({})
   const smodel = sixModel.find({})
@@ -373,34 +443,48 @@ app.get("/two", async (req,res)=>{
   catch(err){
     throw Error();
   }
-  
+  }
+  else {
+    res.redirect('/login')
+  }  
 
 })
 
 
 app.get("/menuCategory",(req,res)=>{
   var loginUser=localStorage.getItem('loginUser');
+  if(loginUser){
   const getPassCat = catMenu.find({})
   getPassCat.exec(function(err,data){
     if(err) throw err;
   res.render('menuCategory', { title: 'Restaurant Management System',loginUser: loginUser,records:data});
 })
+  }
+else {
+  res.redirect('/login')
+}
 })
 
 
 app.get('/menuCategory/delete/:id', checkLoginUser,function(req, res, next) {
   var loginUser=localStorage.getItem('loginUser');
+  if(loginUser){  
   var passcat_id=req.params.id;
   var passdelete=catMenu.findByIdAndDelete(passcat_id);
   passdelete.exec(function(err){
     if(err) throw err;
     res.redirect('/menuCategory');
   });
+}
+else {
+  res.redirect('/login')
+}
 });
 
 
 app.get('/menuCategory/edit/:id', checkLoginUser,function(req, res, next) {
   var loginUser=localStorage.getItem('loginUser');
+  if(loginUser){
   var passcat_id=req.params.id;
   var getpassCategory=catMenu.findById(passcat_id);
   getpassCategory.exec(function(err,data){
@@ -409,10 +493,15 @@ app.get('/menuCategory/edit/:id', checkLoginUser,function(req, res, next) {
     res.render('editCat', { title: 'Restaurant Management System',loginUser: loginUser,errors:'',success:'',records:data,id:passcat_id});
 
   });
+}
+else {
+  res.redirect('/login')
+}
 });
 
 app.post('/menuCategory/edit/', checkLoginUser,function(req, res, next) {
   var loginUser=localStorage.getItem('loginUser');
+  if(loginUser){
   var passcat_id=req.body.id;
   var menuCategory =req.body.category ;
   console.log(passcat_id,menuCategory);
@@ -421,17 +510,26 @@ app.post('/menuCategory/edit/', checkLoginUser,function(req, res, next) {
     if(err) throw err;
        res.redirect('/menuCategory');
   });
+}
+else {
+  res.redirect('/login')
+}
 });
 
 
 
 app.get("/add-new-menu",(req,res)=>{
   var loginUser=localStorage.getItem('loginUser');
+  if(loginUser) {
   const getPassCat = catMenu.find({})
   getPassCat.exec(function(err,data){
     if(err) throw err;
   res.render('addNewMenu', { title: 'Restaurant Management System',loginUser: loginUser,records: data,success:''});
 })
+  }
+  else {
+    res.redirect('/login')
+  }
 })
 
 
@@ -450,7 +548,7 @@ app.post('/add-new-menu',upload,function(req, res, next) {
        name:name,
        price:price,
        details:details,
-       file:image
+       file:image,
 });
   console.log(pass_cat,name,price,details,pid)
 password_details.save(function(err,doc){
@@ -469,6 +567,7 @@ password_details.save(function(err,doc){
 
   app.get('/password-detail/edit/:id',checkLoginUser, function(req, res, next) {
     var loginUser=localStorage.getItem('loginUser');
+    if(loginUser) {
     var id =req.params.id;
     var getPassDetails=itemModel.findById({_id:id});
     getPassDetails.exec(function(err,data){
@@ -478,6 +577,10 @@ password_details.save(function(err,doc){
   res.render('editItem', { title: 'Restaurant Management System',loginUser: loginUser,records:data1,record:data,success:'' });
   });
   });
+}
+else {
+  res.redirect('/login')
+}
   });
   
   app.post('/password-detail/edit/:id',checkLoginUser, function(req, res, next) {
@@ -502,15 +605,18 @@ password_details.save(function(err,doc){
   
   app.get('/password-detail/delete/:id', checkLoginUser,function(req, res, next) {
     var loginUser=localStorage.getItem('loginUser');
+    if(loginUser){
     var id =req.params.id;
     var passdelete=itemModel.findByIdAndDelete(id);
     passdelete.exec(function(err){
       if(err) throw err;
       res.redirect('/view-all-item/');
     });
+  }
   });
   
   app.get('/add-cart/edit/:id',function(req, res, next) {
+  
     var id =req.params.id;
     const productid = 999;
     var passdelete=itemModel.findByIdAndUpdate(id,{pid:productid});
@@ -614,6 +720,8 @@ password_details.save(function(err,doc){
 
 
   app.get('/tablex/edit/:id',function(req, res, next) {
+    var loginUser=localStorage.getItem('loginUser');
+    if(loginUser){
     var id =req.params.id;
     const productid = 999;
     var passdelete=fourModel.findByIdAndUpdate(id,{tid:productid});
@@ -621,18 +729,21 @@ password_details.save(function(err,doc){
       if(err) throw err;
       res.redirect('/two');
     });
+  }
   });
 
 
   app.get('/view-all-item', function(req, res, next) {
       var loginUser=localStorage.getItem('loginUser');
+      if(loginUser){
+
       const getPassCat = itemModel.find({})
       getPassCat.exec(function(err,data){
         if(err) throw err;
       res.render('view-all-item', { title: 'Restaurant Management System',loginUser: loginUser,records:data});
   
     })
-    
+  }
   });
    
 
@@ -693,19 +804,31 @@ app.post("/register", checkUsername,checkEmail, (req,res)=> {
 
 app.get('/shop',function(req,res,next) {
   var loginUser=localStorage.getItem('loginUser');
+  if(loginUser) {
+
   const getPassCat = itemModel.find({})
   getPassCat.exec(function(err,data){
     if(err) throw err;
     res.render('shop', { title: 'Restaurant Management System',loginUser: loginUser,records:data});
   }) 
+}
+else {
+  res.redirect('/login')
+}
 })
 
 app.get('/cart',function(req,res,next) {
+  var loginUser=localStorage.getItem('loginUser');
+  if(loginUser){
   const getPassCat = itemModel.find({})
   getPassCat.exec(function(err,data){
     if(err) throw err;
-    res.render('cart', { title: 'Restaurant Management System',records:data});
+    res.render('cart', { title: 'Restaurant Management System',loginUser: loginUser,records:data});
   }) 
+}
+else {
+  res.redirect('/login')
+}
 })
 
 
