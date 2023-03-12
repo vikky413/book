@@ -9,7 +9,7 @@
 
     <!-- ICONS -->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
-    <title>LoginPage</title>
+    <title> <%= title %></title>
 </head>
 <body>
     <div class="container">
@@ -17,15 +17,19 @@
 
             <!-- Registration Form -->
             <div class="form Signup">
-                <span class="title" style="color: green;">Create New User</span>
+                <span class="title" style="color: green;">Create New Worker</span>
                  
                 <% if(msg !=''){ %>
                     <p style="text-align: center" class="alert alert-danger">   <%= msg %></p>
                     <% } %>
 
-                <form action="/register" name="myForm"  method="post">
+                    <% if(succ !=''){ %>
+                        <p style="text-align: center; color: green;" class="alert alert-success">   <%= succ %></p>
+                        <% } %>
+
+                <form action="/create" name="myForm"  method="post">
                     <div class="input-field">
-                        <input type="text" name="username" id="username" placeholder="Enter your username" required autocomplete="off">
+                        <input type="text" name="name" id="username" placeholder="Enter your full name" required autocomplete="off">
                         <i class="uil uil-user"></i>
                         <span id="user"></span>
                     </div>
@@ -64,10 +68,7 @@
                     </div>
                 </form>
  
-                <div class="login-signup">
-                    <span class="text">Already a member?</span>
-                    <a href="/login" class="text login-link">Login now</a>
-                </div>
+                
             </div>  
         </div>
     </div>

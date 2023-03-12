@@ -12,7 +12,7 @@ const itemModel = require("./models/item")
 const twoModel = require("./models/twoseat")
 const fourModel = require("./models/fourseat")
 const sixModel = require("./models/sixseat")
-
+const Workers = require("./models/createworker")
 const {json} = require("express");
 const { errorMonitor } = require("events");
 var jwt = require('jsonwebtoken');
@@ -194,6 +194,44 @@ app.get("/table", (req, res) =>{
   
 });
 
+app.get('/create',(req,res)=> {
+  res.render('create', { title: 'Restaurant Management System', msg:'',succ:"" });
+})
+// This is the user post data 
+
+
+app.post("/create", (req,res)=> {
+     var currentdate = new Date(); 
+     var time = currentdate.getHours()+currentdate.getMinutes()+currentdate.getSeconds();
+     var password = req.body.password;
+     var confirmpassword= req.body.confirmpassword;
+     const phonenumber = req.body.phonenumber;
+     const name = req.body.name;
+     const email = req.body.email;
+     const username = "worker@"+time;
+     if(password !== confirmpassword){
+
+        res.render("create",{ title: 'Restaurant Management System', msg:'Password not matched',succ:"" })
+        // console.log(password,cpasswoed,phonenumber,username,email)
+     }
+     else {
+    
+        var userDetails=new Workers({
+            name:name,
+            username:username,
+            email:email,
+            phonenumber:phonenumber,
+            password:password,
+            confirmpassword:confirmpassword
+            
+          });
+            userDetails.save((err,doc)=>{
+            if(err) throw err;
+            res.render('create',{ title: 'Restaurant Management System', msg:"",succ:"Worker Login successfully" });
+       })  ;
+     }
+})
+
 
 
 
@@ -209,41 +247,118 @@ app.get("/login",(req,res)=>{
 
 
 app.post("/login",(req,res)=>{
-  
   var username=req.body.username;
   const password = req.body.password;
   const checkUser=User.findOne({username:username});
   checkUser.exec((err, data)=>{
     if(data==null){
-      res.render('index', { title: 'Restaurant Management System', msg:"Invalid Username and Password." });
-  
+      res.render('login', { title: 'Restaurant Management System', msg:"Invalid Username and Password." });
+     }
+  else{
+  if(err) throw err;
+  var getUserID=data._id;
+  var getPassword = data.password;
+  console.log(getPassword)
+  if(password === getPassword){
+    var token = jwt.sign({ userID: getUserID }, 'loginToken');
+    localStorage.setItem('userToken', token);
+    localStorage.setItem('loginUser', username);
+    res.redirect('/dashboard');
+    
+  }
+  else{
+    res.render('login', { title: 'Restaurant Management System', msg:"Invalid Username or Password." });
+  }
+} 
+   });
+});
+
+
+app.get("/workerlogin",(req,res)=>{
+  var loginUser=localStorage.getItem('loginUser');
+  if(loginUser){
+    res.redirect('./worker');
+  }
+  else{
+  res.render('workerlogin', { title: 'Restaurant Management System', msg:'' });
+  }
+})
+
+
+app.post("/workerlogin",(req,res)=>{
+  var username=req.body.username;
+  const password = req.body.password;
+  const checkUser=Workers.findOne({username:username});
+  checkUser.exec((err, data)=>{
+    if(data==null){
+      res.render('workerlogin', { title: 'Restaurant Management System', msg:"Invalid Username and Password." });
      }else{
   if(err) throw err;
   var getUserID=data._id;
   var getPassword = data.password;
   console.log(getPassword)
-  if(password !== getPassword){
-   res.render('login', { title: 'Restaurant Management System', msg:"Invalid Username or Password." });
-  }
-  else{
+  if(password === getPassword){
     var token = jwt.sign({ userID: getUserID }, 'loginToken');
     localStorage.setItem('userToken', token);
     localStorage.setItem('loginUser', username);
+    res.redirect('/worker')
+   
+  }
+  else
+  {
+    res.render('workerlogin', { title: 'Restaurant Management System', msg:"Invalid Worker Username or Password." });
+    
+  }
+} 
+   });
+});
+
+
+
+app.get("/adminlogin",(req,res)=>{
+  var loginUser=localStorage.getItem('loginUser');
+  if(loginUser){
+    res.redirect('./admin');
+  }
+  else{
+  res.render('adminlogin', { title: 'Restaurant Management System', msg:'' });
+  }
+})
+
+
+app.post("/adminlogin",(req,res)=>{
+  var username=req.body.username;
+  const password = req.body.password;
+  const checkUser=User.findOne({username:username});
+  checkUser.exec((err, data)=>{
+    if(data==null){
+      res.render('adminlogin', { title: 'Restaurant Management System', msg:"Invalid Username and Password." });
+     }else{
+  if(err) throw err;
+  var getUserID=data._id;
+  var getPassword = data.password;
+  console.log(getPassword)
+  if(password === getPassword){
+    var token = jwt.sign({ userID: getUserID }, 'loginToken');
+    localStorage.setItem('userToken', token);
+    localStorage.setItem('loginUser', username);
+    
     if(username == "real" && password === "1234"){
-      res.redirect('/admin')
-    }
-    else if(username == 'ankul' && password == "12345"){
-      res.redirect('/worker')
+      res.redirect('/admin') 
     }
     else {
-    res.redirect('/dashboard');
+      res.render('adminlogin', { title: 'Restaurant Management System', msg:"Invalid Admin Username or Password." });
     }
+   
   }
-}
-  
+  else{
+    
+    res.render('adminlogin', { title: 'Restaurant Management System', msg:"Invalid Username or Password." });
+  }
+} 
    });
-  
 });
+
 
 
 

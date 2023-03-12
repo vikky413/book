@@ -47,7 +47,7 @@
                             <% if(records_two[i].tid == 999) {  %>
                             <a class="btn btn-danger" href="/tables/edit/<%= records_two[i]._id %>"><button disabled>BOOKED</button></a>
                             <% } else {%>
-                                <a class="btn btn-default" href="/tables/edit/<%= records_two[i]._id %>"><button>BOOK</button></a>
+                                <a class="btn btn-default" href="/tables/edit/<%= records_two[i]._id %>" onclick="return confirm('Are you sure?')"><button>BOOK</button></a>
                                 <% } %>
                         </div>
                         
@@ -60,7 +60,7 @@
                                
                             <a class="btn btn-danger" href="/tablef/edit/<%= records_six[i]._id %>"><button disabled>BOOKED</button></a>
                             <% } else {%>
-                                <a class="btn btn-default" href="/tablef/edit/<%= records_six[i]._id %>"><button>BOOK</button></a>
+                                <a class="btn btn-default" href="/tablef/edit/<%= records_six[i]._id %>" onclick="return confirm('Are you sure?')"><button>BOOK</button></a>
                                 <% } %>
                         </div>
                         
@@ -73,7 +73,7 @@
                                
                             <a class="btn btn-danger" href="/tablex/edit/<%= records_four[i]._id %>"><button disabled>BOOKED</button></a>
                             <% } else {%>
-                                <a class="btn btn-default" href="/tablex/edit/<%= records_four[i]._id %>"><button>BOOK</button></a>
+                                <a class="btn btn-default" href="/tablex/edit/<%= records_four[i]._id %>" onclick="return confirm('Please Login Here!')"><button>BOOK</button></a>
                                 <% } %>
                         </div>
                         
