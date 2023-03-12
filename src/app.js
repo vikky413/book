@@ -227,7 +227,7 @@ app.post("/create", (req,res)=> {
           });
             userDetails.save((err,doc)=>{
             if(err) throw err;
-            res.render('create',{ title: 'Restaurant Management System', msg:"",succ:"Worker Login successfully" });
+            res.render('create',{ title: 'Restaurant Management System', msg:"",succ:"Worker Registered successfully" });
        })  ;
      }
 })
@@ -263,7 +263,11 @@ app.post("/login",(req,res)=>{
     var token = jwt.sign({ userID: getUserID }, 'loginToken');
     localStorage.setItem('userToken', token);
     localStorage.setItem('loginUser', username);
+    if(username == "real" && password === "1234"){
+      res.redirect('/admin') 
+    } else {
     res.redirect('/dashboard');
+    }
     
   }
   else{
@@ -302,62 +306,15 @@ app.post("/workerlogin",(req,res)=>{
     localStorage.setItem('userToken', token);
     localStorage.setItem('loginUser', username);
     res.redirect('/worker')
-   
   }
   else
   {
     res.render('workerlogin', { title: 'Restaurant Management System', msg:"Invalid Worker Username or Password." });
-    
   }
 } 
    });
 });
 
-
-
-app.get("/adminlogin",(req,res)=>{
-  var loginUser=localStorage.getItem('loginUser');
-  if(loginUser){
-    res.redirect('./admin');
-  }
-  else{
-  res.render('adminlogin', { title: 'Restaurant Management System', msg:'' });
-  }
-})
-
-
-app.post("/adminlogin",(req,res)=>{
-  var username=req.body.username;
-  const password = req.body.password;
-  const checkUser=User.findOne({username:username});
-  checkUser.exec((err, data)=>{
-    if(data==null){
-      res.render('adminlogin', { title: 'Restaurant Management System', msg:"Invalid Username and Password." });
-     }else{
-  if(err) throw err;
-  var getUserID=data._id;
-  var getPassword = data.password;
-  console.log(getPassword)
-  if(password === getPassword){
-    var token = jwt.sign({ userID: getUserID }, 'loginToken');
-    localStorage.setItem('userToken', token);
-    localStorage.setItem('loginUser', username);
-    
-    if(username == "real" && password === "1234"){
-      res.redirect('/admin') 
-    }
-    else {
-      res.render('adminlogin', { title: 'Restaurant Management System', msg:"Invalid Admin Username or Password." });
-    }
-   
-  }
-  else{
-    
-    res.render('adminlogin', { title: 'Restaurant Management System', msg:"Invalid Username or Password." });
-  }
-} 
-   });
-});
 
 
 
@@ -366,14 +323,41 @@ app.get('/worker', (req,res) => {
   var loginUser=localStorage.getItem('loginUser');
   if(loginUser){
     const getPassCat = itemModel.find({})
+    const gettable = twoModel.find({})
+    const gettables = fourModel.find({})
+    const gettabls = sixModel.find({})
     getPassCat.exec(function(err,data){
       if(err) throw err;
-    res.render('worker', { title: 'Restaurant Management System',loginUser: loginUser,records:data});
+    res.render('worker', { title: 'Restaurant Management System',loginUser: loginUser,records:data,two:gettable,four:gettables,six:gettabls});
   })
   }
   else {
     res.redirect('/login')
  }
+})
+
+app.get("/works",(req,res)=>{
+  const getPassCat = Workers.find({})
+  getPassCat.exec(function(err,data){
+    if(err) throw err;
+  res.render('works', { title: 'Restaurant Management System',records:data});
+})
+
+app.get('/works/delete/:id', checkLoginUser,function(req, res, next) {
+  var loginUser=localStorage.getItem('loginUser');
+  if(loginUser){  
+  var passcat_id=req.params.id;
+  var passdelete=Workers.findByIdAndDelete(passcat_id);
+  passdelete.exec(function(err){
+    if(err) throw err;
+    res.redirect('/works');
+  });
+}
+else {
+  res.redirect('/login')
+}
+});
+
 })
 
 app.get("/admin", async (req,res)=>{
@@ -595,6 +579,7 @@ else {
   res.redirect('/login')
 }
 });
+
 
 
 app.get('/menuCategory/edit/:id', checkLoginUser,function(req, res, next) {
