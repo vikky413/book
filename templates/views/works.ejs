@@ -29,7 +29,8 @@
                   <thead>
                     <tr>
                       <th>Worker Name</th>
-                       <th>Worker username</th>
+                       <th>Worker Username</th>
+                       <th>Worker Password</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -45,7 +46,9 @@
                       <td>
                         <%= row.username %>
                       </td>
-
+                      <td>
+                        <%= row.password %>
+                      </td>
                       <td>
                         <a class="btn btn-danger btn-xs" href="/works/delete/<%= row._id %>"><i class="fa fa-trash"></i></a>
                       </td>

@@ -15,7 +15,7 @@ const createSchema = new Schema({
         unique:true
     },
     phonenumber : {
-        type:Number,
+        type:String,
         required:true
     },
     password : {

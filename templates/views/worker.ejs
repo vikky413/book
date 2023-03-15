@@ -80,23 +80,23 @@
 						
 					</div>
                    
-					<% if(records.length >0){
-						records.forEach(function(row){
+					<% if(items.length >0){
+						for(var i=0;i< items.length;i++){
 						%>
                         <div class="items">
                             <div class="item1">                    
      
                                 
 					
-                            <% if(row.pid == "999" ) { %>
+                            <% if(items[i].pid == "999" ) { %>
                                                    
-                            <h3 class="t-op-nextlvl"><%= loginUser %></h3>
-							<h3 class="t-op-nextlvl"><%= row.name %></h3>
-							<h3 class="t-op-nextlvl"><%= row.price %></h3>
+                            <h3 class="t-op-nextlvl"><%= users[i+1].username %></h3>
+							<h3 class="t-op-nextlvl"><%= items[i].name %></h3>
+							<h3 class="t-op-nextlvl"><%= items[i].price %></h3>
 							<% } %>
 						</div>
 
-						<%  }) } %>
+						<%  } } %>
 					</div>
 				</div>
 			</div>
