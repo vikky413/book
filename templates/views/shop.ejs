@@ -16,6 +16,114 @@
     <link href="css/custom.css" rel="stylesheet">
 
         <title>Restaurant Management System</title>
+
+        <style>
+            .card {
+ width: 230px;
+ height: 300px;
+ border-radius: 20px;
+ /* background: #f5f5f5; */
+ position: relative;
+ /* padding: 1.8rem; */
+ border: 2px solid #c3c6ce;
+ transition: 0.5s ease-out;
+ overflow: visible;
+}
+
+.card-details {
+ color: black;
+ height: 100%;
+ gap: .5em;
+ /* display: grid; */
+ place-content: center;
+}
+
+.card-button {
+    transform: translate(-68%, 82%); width: 60%;
+ border-radius: 1rem;
+ border: none;
+ background-color: red;
+ /* color: #fff; */
+ font-size: 1rem;
+ padding: 1.5rem 1rem;
+ position: absolute;
+ left: 50%;
+ bottom: 0;
+ opacity: 0;
+ transition: 0.3s ease-out;
+}
+
+.text-body {
+ color: rgb(134, 134, 134);
+}
+
+/*Text*/
+.text-title {
+ font-size: 1.5em;
+ font-weight: bold;
+}
+
+/*Hover*/
+.card:hover {
+ border-color: #008bf8;
+ box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.25);
+}
+
+.card:hover .card-button {
+ transform: translate(-50%, 50%);
+ opacity: 1;
+}
+.imgCont{
+    width:100%;
+    height: 145px;;
+    
+}
+.imgS{
+    width:100%;
+    height: 100%;
+    border-radius: 18px 18px 2px 0px;
+    box-shadow: 0px 2px 10px 0px #888888;
+
+}
+.cardDesc{
+    width: 100%;
+    background: #fff;
+    display: flex;
+    justify-content: space-around;
+}
+.menu-title{
+    
+    text-align: center;
+    background: #ffd4d4;
+    padding: 12px;
+    font-size: 40px;
+
+}
+.notification {
+    background-color: #f9f9f9;
+    color: #181717;
+    text-decoration: none;
+    padding: 7px 18px;
+    position: relative;
+    display: inline-block;
+    border-radius: 27px;
+}
+
+/* .notification:hover {
+  background: red;
+} */
+
+.notification .badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  padding: 5px 10px;
+  border-radius: 50%;
+  background-color: red;
+  color: white;
+}
+
+        </style>
     </head>
     <body>
 
@@ -27,12 +135,23 @@
         <!--========== HEADER ==========-->
         <header class="l-header" id="header">
             <nav class="nav bd-container">
-                <a href="/" class="nav__logo"><% if(loginUser){ %> <%= loginUser  %> <% } %></a>
+                <a href="/" class="nav__logo" style="font-size: 20px; text-decoration: none;"><b><% if(loginUser){ %> <%= loginUser  %> <% } %></b></a>
 
                 <div class="nav__menu" id="nav-menu">
                     <ul class="nav__list">
-                        
-                        <li class="nav__item"><a href="/cart" class="nav__link active-link">Go to Cart</a></li>
+                        <!-- <a href="#" class="notification"></a>
+                        <li class="nav__item">
+                            <a href="/cart" class="nav__link active-link" style="font-size: 20px; text-decoration: none;"
+                            ><span>Go to Cart</span>
+                        </a>
+                        <span class="badge">3</span>
+                    </li>
+
+                </a> -->
+                <a href="/cart" class="notification" style="font-size: 14px; text-decoration: none;">
+                    <span>Go to Cart</span>
+                    <span class="badge">3</span>
+                  </a>
                         <!-- <li><i class='bx bx-moon change-theme' id="theme-button"></i></li> -->
                     </ul>
                 </div>
@@ -45,7 +164,7 @@
 
 
         <section class="menu section bd-container" id="menu">
-            <h2 class="section-title">Menu</h2>
+            <div class="menu-title"><b>- Menu -</b></div>
           
             <div class="menu__container bd-grid">
                 
@@ -53,13 +172,30 @@
                     records.forEach(function(row){
                     %>
 
-                    <div class="menu__content">
+                    <!-- <div class="menu__content">
                         <img src="./upload/<%= row.file %>" alt="" class="menu__img">
                         <h3 class="menu__name"><%= row.name %></h3>
                         <span class="menu__detail"><%- row.details %></span>
                         <span class="menu__preci">$<%= row.price %></span>
                         <a href="/add-cart/edit/<%= row._id %>" class="button menu__button">Add to Cart</a>
-                    </div>
+                    </div> -->
+                    <div class="card">
+                        <div class="cards-details">
+                            <div class="imgCont">
+                                <img src="./upload/<%= row.file %>" alt="" class="imgS">
+                            </div>
+                            <div style="padding:10px;overflow-wrap: break-word;">
+                            <div class="cardDesc">
+                                <div ><b><%= row.name %></b></div>
+                                <div ><b>$<%= row.price %></b></div>
+                            </div>
+                            <div  style="padding:10px">
+                                <p ><%- row.details %>sqwsqwqwdwdewdwedwededwed</p>
+                            </div>
+                        </div>
+                        </div>
+                        <button class="card-button"> <a href="/add-cart/edit/<%= row._id %>" style="text-decoration: none; color: black;"><b>Add To Cart </b></a></button>
+                      </div>
 
                 <%  }) } %>
               

@@ -148,7 +148,8 @@ img{
   top: 0;
   left: 0;
   z-index: var(--z-fixed);
-  background-color: var(--body-color);
+  background-color: #74f1c7;
+  padding: 10px;
 }
 
 /*========== NAV ==========*/
@@ -364,6 +365,7 @@ img{
 
 .menu__detail{
   margin-bottom: var(--mb-1);
+  font-size: 12px;
 }
 
 .menu__button{

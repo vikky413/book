@@ -63,7 +63,9 @@ label {
 }
 
 .shopping-cart {
-  margin-top: -45px;
+  margin-top: 25px;
+  padding: 120px;
+  box-shadow: -1px 10px 10px 10px #d0bdbd;
 }
 
 
@@ -76,15 +78,15 @@ label {
   }
   
   .column-labels  .product-image {
-    text-indent: -9999px;
+    /* text-indent: -9999px; */
   }
 
   .column-labels .product-details {
-    text-indent: -9999px;
+    /* text-indent: -9999px; */
   }
 
   .column-labels .product-removal {
-    text-indent: -9999px;
+    /* text-indent: -9999px; */
   }
 
 /* Product entries */
@@ -92,9 +94,10 @@ label {
   margin-bottom: 20px;
   padding-bottom: 10px;
   border-bottom: 1px solid #eee;
+  overflow: unset;
 }
 .product .product-image {
-    text-align: center;
+    /* text-align: center; */
 
 }
 .product .product-image  img {
